@@ -595,4 +595,11 @@ describe('hasFilterQuery', () => {
 		expect(hasFilterQuery('done = false')).toBe(true)
 		expect(hasFilterQuery('hello')).toBe(false)
 	})
+
+	it('does not treat plain search terms containing an operator word as a filter', () => {
+		// "in" and "like" are word operators, "meeting" only contains them as substrings
+		expect(hasFilterQuery('meeting')).toBe(false)
+		expect(hasFilterQuery('likely')).toBe(false)
+		expect(hasFilterQuery('labels in 1')).toBe(true)
+	})
 })
